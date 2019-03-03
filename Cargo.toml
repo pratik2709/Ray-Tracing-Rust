@@ -1,0 +1,8 @@
+[package]
+name = "rustGameDevelopment"
+version = "0.1.0"
+authors = ["pratiksaxena <pratik2709@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+ggez = "0.4.4"
