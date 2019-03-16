@@ -3,6 +3,9 @@ use std::error::Error;
 use std::fs::File;
 use std::path::Path;
 
+include!("VectorLib.rs");
+
+
 fn main(){
 
     let actual_path = Path::new("output.txt");
