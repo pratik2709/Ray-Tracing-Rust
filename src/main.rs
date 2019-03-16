@@ -24,13 +24,17 @@ fn main(){
         for i in 0..nx{
             let i = i as f32;
             let j = j as f32;
-            let r:f32 = i/(nx as f32);
-            let g:f32 = j/(ny as f32);
-            let b:f32 = 0.2;
 
-            let ir = (255.99 * r) as i32;
-            let ig = (255.99 * g) as i32;
-            let ib = (255.99 * b) as i32;
+            let rgbVec = Vec3{
+                x: i/(nx as f32),
+                y: j/(ny as f32),
+                z: 0.2
+            };
+
+
+            let ir = (255.99 * rgbVec.x) as i32;
+            let ig = (255.99 * rgbVec.y) as i32;
+            let ib = (255.99 * rgbVec.z) as i32;
             let new_string = format!("{} {} {} \n", ir,ig, ib);
             actual_file.write(new_string.as_bytes());
 
