@@ -4,6 +4,7 @@ use std::fs::File;
 use std::path::Path;
 
 include!("VectorLib.rs");
+include!("ray.rs");
 
 
 fn main(){
