@@ -133,11 +133,13 @@ impl Vec3{
         }
     }
 
-    fn make_unit_vector(mut self) {
+    fn make_unit_vector(self) -> Vec3 {
         let k = 1.0/((self.x*self.x + self.y*self.y + self.z*self.z) as f32).sqrt();
-        self.x *= k;
-        self.y *= k;
-        self.z *= k;
+        Vec3{
+            x: self.x *k,
+            y: self.y *k,
+            z: self.z *k,
+        }
     }
 }
 

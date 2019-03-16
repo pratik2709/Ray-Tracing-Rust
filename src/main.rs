@@ -39,12 +39,13 @@ fn main(){
             let ray:Ray = Ray::new(origin,
                 lower_left_corner + horizontal*rgbVec.x + vertical*rgbVec.y);
 
-            color(ray);
-            let direction = ray.direction;
+            let rayDirectionUnitVector = ray.direction.make_unit_vector();
+            let t = 0.5*(rayDirectionUnitVector.y + 1.0);
+            let v = Vec3::new(1.0,1.0,1.0)*(1.0-t) + Vec3::new(0.5,0.7,1.0)*t;
 
-            let ir = (255.99 * direction.x) as i32;
-            let ig = (255.99 * direction.y) as i32;
-            let ib = (255.99 * direction.z) as i32;
+            let ir = (255.99 * v.x) as i32;
+            let ig = (255.99 * v.y) as i32;
+            let ib = (255.99 * v.z) as i32;
 
             let new_string = format!("{} {} {} \n", ir,ig, ib);
             actual_file.write(new_string.as_bytes());
@@ -56,7 +57,7 @@ fn main(){
 
 }
 
-fn color(r: Ray){
-    let direction:Vec3 = r.direction;
-    direction.make_unit_vector();
-}
+//fn color(r: &Ray){
+//    let direction:&Vec3 = &r.direction;
+//    direction.make_unit_vector();
+//}
