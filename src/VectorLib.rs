@@ -103,8 +103,33 @@ impl Div<f32 >for Vec3{
 }
 
 impl Vec3{
+    fn length(self) -> f32{
+        ((self.x*self.x + self.y*self.y + self.z*self.z) as f32).sqrt()
+    }
+
+    fn length_squared(self) -> f32{
+        self.x*self.x + self.y*self.y + self.z*self.z
+    }
+}
+
+impl Vec3{
     fn dot(self, new_vec:Vec3) -> f32{
         self.x * new_vec.x + self.y * new_vec.y + self.z * new_vec.z
+    }
+
+    fn cross(self, new_vec:Vec3) -> Vec3{
+        Vec3{
+            x: self.y*new_vec.z - self.z*new_vec.y,
+            y: self.z*new_vec.x - self.x*new_vec.z,
+            z: self.x*new_vec.y - self.y*new_vec.x,
+        }
+    }
+
+    fn make_unit_vector(mut self) {
+        let k = 1.0/((self.x*self.x + self.y*self.y + self.z*self.z) as f32).sqrt();
+        self.x *= k;
+        self.y *= k;
+        self.z *= k;
     }
 }
 
