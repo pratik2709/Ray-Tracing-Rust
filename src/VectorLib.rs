@@ -4,6 +4,7 @@ use std::ops::Mul;
 use std::ops::Div;
 use std::ops::Neg;
 
+#[derive(Debug)]
 pub struct Vec3{
     pub x: f32,
     pub y: f32,
@@ -113,6 +114,13 @@ impl Vec3{
 }
 
 impl Vec3{
+
+    fn new(x:f32,y:f32, z:f32) -> Vec3{
+        Vec3{
+            x,y,z
+        }
+    }
+
     fn dot(self, new_vec:Vec3) -> f32{
         self.x * new_vec.x + self.y * new_vec.y + self.z * new_vec.z
     }
