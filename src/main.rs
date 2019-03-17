@@ -39,9 +39,7 @@ fn main(){
             let ray:Ray = Ray::new(origin,
                 lower_left_corner + horizontal*rgbVec.x + vertical*rgbVec.y);
 
-            let rayDirectionUnitVector = ray.direction.make_unit_vector();
-            let t = 0.5*(rayDirectionUnitVector.y + 1.0);
-            let v = Vec3::new(1.0,1.0,1.0)*(1.0-t) + Vec3::new(0.5,0.7,1.0)*t;
+            let v = color(ray);
 
             let ir = (255.99 * v.x) as i32;
             let ig = (255.99 * v.y) as i32;
@@ -57,7 +55,9 @@ fn main(){
 
 }
 
-//fn color(r: &Ray){
-//    let direction:&Vec3 = &r.direction;
-//    direction.make_unit_vector();
-//}
+fn color(ray: Ray) -> Vec3 {
+    let rayDirectionUnitVector = ray.direction.make_unit_vector();
+    let t = 0.5 * (rayDirectionUnitVector.y + 1.0);
+    let v = Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t;
+    v
+}
