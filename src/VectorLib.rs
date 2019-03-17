@@ -121,8 +121,9 @@ impl Vec3{
         }
     }
 
-    fn dot(self, new_vec:Vec3) -> f32{
-        self.x * new_vec.x + self.y * new_vec.y + self.z * new_vec.z
+    fn dot(&self, new_vec:&Vec3) -> f32{
+        let d = self.x * new_vec.x + self.y * new_vec.y + self.z * new_vec.z;
+        d
     }
 
     fn cross(self, new_vec:Vec3) -> Vec3{
