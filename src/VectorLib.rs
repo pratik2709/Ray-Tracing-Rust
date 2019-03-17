@@ -142,5 +142,6 @@ impl Vec3{
             z: self.z *k,
         }
     }
+
 }
 
