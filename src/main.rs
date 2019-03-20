@@ -5,6 +5,7 @@ use std::path::Path;
 
 include!("VectorLib.rs");
 include!("ray.rs");
+include!("hittable.rs");
 
 
 fn main(){
