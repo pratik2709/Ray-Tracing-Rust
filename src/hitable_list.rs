@@ -15,14 +15,19 @@ impl<'a> hitable_list <'a>{
 impl<'a> RayHit for hitable_list<'a>{
     fn hit(self, ray: Ray, t_min:f32, t_max: f32,  rec: hit_record) -> bool{
         let temp_rec: hit_record;
-        let hit_anything = false;
-        let closest_so_far: f64= t_max as f64;
+        let mut hit_anything = false;
+        let mut closest_so_far: f64= t_max as f64;
 
-        for i in 0..self.list_size{
-            println!("{}", i);
-//            let m = self.list[i];
+        for i in self.list{
+            println!("{:?}", i);
+            let n:bool= i.hit(ray, t_min, closest_so_far, temp_rec);
+            if n{
+                hit_anything=true;
+                closest_so_far = temp_rec.t as f64;
+                rec = temp_rec;
+            }
         }
-        true
+        hit_anything
     }
 }
 
