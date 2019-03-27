@@ -4,6 +4,14 @@ pub struct hit_record{
     pub normal:Vec3
 }
 
+//pub struct hitable{
+//
+//}
+//
+//impl hitable{
+//    fn hit(self, ray: Ray, t_min:f32, t_max: f32, rec:hit_record) -> bool;
+//}
+
 trait RayHit{
     fn hit(self, ray: Ray, t_min:f32, t_max: f32, rec:hit_record) -> bool;
 }

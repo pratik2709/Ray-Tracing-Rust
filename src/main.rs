@@ -23,6 +23,21 @@ fn main(){
     actual_file.write(first_line.as_bytes());
 
     let mut j = ny-1;
+
+    let mut spheres: Vec<sphere> = Vec::new();
+    let v1 = sphere{
+        center: Vec3::new(0.0,0.0,-1.0),
+        radius: 0.5
+    };
+
+    let v2 = sphere{
+        center: Vec3::new(0.0,-100.5,-1.0),
+        radius: 100.0
+    };
+    spheres.push(v1);
+    spheres.push(v2);
+    let world = hitable_list::new(2, &spheres);
+
     while j>= 0 {
         for i in 0..nx{
             let i = i as f32;
@@ -38,10 +53,11 @@ fn main(){
             let horizontal = Vec3::new(4.0, 0.0, 0.0);
             let vertical = Vec3::new(0.0, 2.0, 0.0);
             let origin = Vec3::new(0.0, 0.0, 0.0);
+
             let ray:Ray = Ray::new(origin,
                 lower_left_corner + horizontal*rgbVec.x + vertical*rgbVec.y);
 
-            let v = color(ray);
+            let v = color(ray, &world);
 
             let ir = (255.99 * v.x) as i32;
             let ig = (255.99 * v.y) as i32;
@@ -57,7 +73,7 @@ fn main(){
 
 }
 
-fn color(ray: Ray) -> Vec3 {
+fn color(ray: Ray, world:&hitable_list) -> Vec3 {
     let v:Vec3;
     let t = hit_sphere(Vec3::new(0.0,0.0,-1.0),0.5, &ray);
     if t > 0.0 {
