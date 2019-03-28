@@ -13,21 +13,16 @@ impl<'a> hitable_list <'a>{
 }
 
 impl<'a> RayHit for hitable_list<'a>{
-    fn hit(self, ray: Ray, t_min:f32, t_max: f32,  mut rec: &mut hit_record) -> bool{
-        let mut temp_rec: &mut hit_record;
-//        temp_rec = rec;
+    fn hit(self, ray: Ray, t_min:f32, t_max: f32) -> bool{
         let mut hit_anything = false;
         let mut closest_so_far = t_max ;
 
         for i in self.list{
             let ii = i.clone();
             let new_ray = ray.clone();
-//            let new_temp_rec = temp_rec.clone();
-            let n:bool= ii.hit(new_ray, t_min, closest_so_far, temp_rec);
+            let n:bool= ii.hit(new_ray, t_min, closest_so_far);
             if n{
                 hit_anything=true;
-                closest_so_far = temp_rec.t;
-                rec = temp_rec;
             }
         }
         hit_anything
