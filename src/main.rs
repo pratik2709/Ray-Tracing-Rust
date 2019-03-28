@@ -57,7 +57,8 @@ fn main(){
             let ray:Ray = Ray::new(origin,
                 lower_left_corner + horizontal*rgbVec.x + vertical*rgbVec.y);
 
-            let v = color(ray, &world);
+            let new_world = world.clone();
+            let v = color(ray, new_world);
 
             let ir = (255.99 * v.x) as i32;
             let ig = (255.99 * v.y) as i32;
@@ -73,21 +74,18 @@ fn main(){
 
 }
 
-fn color(ray: Ray, world:&hitable_list) -> Vec3 {
-    let v:Vec3;
-    let t = hit_sphere(Vec3::new(0.0,0.0,-1.0),0.5, &ray);
-    if t > 0.0 {
-        let Ntemp = ray.point_at_parameter(t) - Vec3::new(0.0,0.0,-1.0);
-        let N = Ntemp.make_unit_vector();
-        v = Vec3::new(N.x + 1.0,N.y + 1.0,N.z + 1.0)*0.5;
+fn color(ray: Ray, world: hitable_list) -> Vec3 {
+    let (ray_hit_result,rec) = world.hit(ray.clone(), 0.0, std::f32::MAX);
+    if ray_hit_result {
+        return Vec3::new(rec.normal.x + 1.0,rec.normal.y + 1.0,rec.normal.z + 1.0)*0.5;
+
     }
     else{
         let rayDirectionUnitVector = ray.direction.make_unit_vector();
         let t = 0.5 * (rayDirectionUnitVector.y + 1.0);
-        v = Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t;
+        return Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t;
     }
 
-    v
 }
 
 fn hit_sphere(center: Vec3, radius: f32, ray:&Ray) -> f32{
