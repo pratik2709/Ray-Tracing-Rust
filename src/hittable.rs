@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct hit_record{
     pub t:f32,
     pub p:Vec3,
@@ -13,10 +14,11 @@ pub struct hit_record{
 //}
 
 trait RayHit{
-    fn hit(self, ray: Ray, t_min:f32, t_max: f32, rec:hit_record) -> bool;
+    fn hit(self, ray: Ray, t_min:f32, t_max: f32, mut rec:&mut hit_record) -> bool;
 }
 
 #[derive(Debug)]
+#[derive(Clone)]
 struct sphere{
     center: Vec3,
     radius: f32,
@@ -33,7 +35,7 @@ impl sphere{
 }
 
 impl RayHit for sphere{
-    fn hit(self, ray: Ray, t_min:f32, t_max: f32, mut rec: hit_record) -> bool{
+    fn hit(self, ray: Ray, t_min:f32, t_max: f32, rec: &mut hit_record) -> bool{
         let oc = ray.getOrigin() - self.center();
         let a:f32 = ray.getDirection().dot(&ray.direction);
         let b:f32 = ray.getDirection().dot(&oc);

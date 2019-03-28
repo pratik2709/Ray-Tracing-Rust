@@ -4,6 +4,7 @@ use std::ops::Mul;
 use std::ops::Div;
 use std::ops::Neg;
 
+#[derive(Clone)]
 #[derive(Debug)]
 pub struct Vec3{
     pub x: f32,
