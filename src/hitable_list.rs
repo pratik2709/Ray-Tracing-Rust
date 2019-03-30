@@ -18,21 +18,29 @@ impl<'a> RayHit for hitable_list<'a> {
         let mut hit_anything = false;
         let mut closest_so_far = t_max;
 
-        let rec_ret: Option<hit_record> = None;
+        let mut rec: Option<hit_record> = None;
         for i in self.list {
             let ii = i.clone();
             let new_ray = ray.clone();
-            let (n, rec) = ii.hit(new_ray, t_min, closest_so_far);
+            let (n, new_rec) = ii.hit(new_ray, t_min, closest_so_far);
 
-            match rec {
-                None => return (hit_anything, rec),
-                Some(rec) => if n {
-                    hit_anything = true;
-                    return (hit_anything, Some(rec))
+            if n {
+                match new_rec {
+                    None => {
+                        hit_anything = true;
+                        return (hit_anything, new_rec)
+                    },
+                    Some(new_rec) => {
+                        hit_anything = true;
+                        closest_so_far = new_rec.t;
+                        let n_new_rec = new_rec.clone();
+                        rec = Some(n_new_rec);
+                    }
                 }
             }
+
         }
-        (hit_anything, rec_ret)
+        (hit_anything, rec)
     }
 }
 
