@@ -79,21 +79,20 @@ fn main() {
 fn color(ray: Ray, world: hitable_list) -> Option<Vec3> {
     let tempVec3: Option<Vec3> = None;
     let (ray_hit_result, rec) = world.hit(ray.clone(), 0.0, std::f32::MAX);
-    match rec {
-        None => return tempVec3,
-        Some(rec) => return color_m(ray, rec, ray_hit_result),
-    }
-}
-
-fn color_m(ray: Ray, rec: hit_record, ray_hit_result: bool) -> Option<Vec3> {
     if ray_hit_result {
-        return Some(Vec3::new(rec.normal.x + 1.0, rec.normal.y + 1.0, rec.normal.z + 1.0) * 0.5);
-    } else {
+        match rec {
+            None => return tempVec3,
+            Some(rec) => return Some(Vec3::new(rec.normal.x + 1.0, rec.normal.y + 1.0, rec.normal.z + 1.0) * 0.5),
+        }
+    }
+    else{
         let rayDirectionUnitVector = ray.direction.make_unit_vector();
         let t = 0.5 * (rayDirectionUnitVector.y + 1.0);
         return Some(Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t);
     }
+
 }
+
 
 fn hit_sphere(center: Vec3, radius: f32, ray: &Ray) -> f32 {
     let or = ray.getOrigin();
