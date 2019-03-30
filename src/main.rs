@@ -67,7 +67,7 @@ fn main() {
                     let new_string = format!("{} {} {} \n", ir, ig, ib);
                     actual_file.write(new_string.as_bytes());
                 }
-                None => ()
+                None => continue
             }
 
         }
