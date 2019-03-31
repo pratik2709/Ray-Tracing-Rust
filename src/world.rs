@@ -14,7 +14,7 @@ impl<'a> hitable_list<'a> {
 }
 
 impl<'a> RayHit for hitable_list<'a> {
-    fn hit(&self, ray: Ray, t_min: f32, t_max: f32) -> (bool, Option<hit_record>) {
+    fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> (bool, Option<hit_record>) {
         let mut hit_anything = false;
         let mut closest_so_far = t_max;
 
@@ -22,7 +22,7 @@ impl<'a> RayHit for hitable_list<'a> {
         for i in self.list {
             let ii = i.clone();
             let new_ray = ray.clone();
-            let (n, new_rec) = ii.hit(new_ray, t_min, closest_so_far);
+            let (n, new_rec) = ii.hit(&ray, t_min, closest_so_far);
 
             if n {
                 match new_rec {

@@ -89,7 +89,7 @@ fn main() {
 
 fn color(ray: Ray, world: &hitable_list) -> Option<Vec3> {
     let tempVec3: Option<Vec3> = None;
-    let (ray_hit_result, rec) = world.hit(ray.clone(), 0.001, std::f32::MAX);
+    let (ray_hit_result, rec) = world.hit(&ray, 0.001, std::f32::MAX);
     if ray_hit_result {
         match rec {
             None => return tempVec3,
@@ -124,20 +124,6 @@ fn random_in_unit_sphere() -> Vec3 {
 }
 
 
-fn hit_sphere(center: Vec3, radius: f32, ray: &Ray) -> f32 {
-    let or = ray.getOrigin();
-    let oc = or - center;
-    let tempRay = &ray.direction;
-    let a = tempRay.dot(tempRay);
-    let b = 2.0 * oc.dot(tempRay);
-    let c = &oc.dot(&oc) - radius * radius;
-    let discriminant = b * b - (a * c) * 4.0;
-    if discriminant < 0.0 {
-        -1.0
-    } else {
-        (-b - discriminant.sqrt()) / (2.0 * a)
-    }
-}
 
 pub fn drand48() -> f32 {
     let rand_float: f32 = rand::thread_rng().gen();

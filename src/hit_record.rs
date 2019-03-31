@@ -3,6 +3,7 @@ pub struct hit_record{
     pub t:f32,
     pub p:Vec3,
     pub normal:Vec3
+//    pub material: material
 }
 
 impl hit_record{
