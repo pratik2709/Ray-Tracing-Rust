@@ -13,8 +13,8 @@ include!("VectorLib.rs");
 include!("traits.rs");
 include!("hit_record.rs");
 include!("ray.rs");
-include!("hittable.rs");
-include!("hitable_list.rs");
+include!("sphere.rs");
+include!("world.rs");
 include!("camera.rs");
 
 
