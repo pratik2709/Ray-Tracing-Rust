@@ -10,6 +10,8 @@ use std::path::Path;
 
 
 include!("VectorLib.rs");
+include!("traits.rs");
+include!("hit_record.rs");
 include!("ray.rs");
 include!("hittable.rs");
 include!("hitable_list.rs");
