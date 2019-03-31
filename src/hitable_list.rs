@@ -14,7 +14,7 @@ impl<'a> hitable_list<'a> {
 }
 
 impl<'a> RayHit for hitable_list<'a> {
-    fn hit(self, ray: Ray, t_min: f32, t_max: f32) -> (bool, Option<hit_record>) {
+    fn hit(&self, ray: Ray, t_min: f32, t_max: f32) -> (bool, Option<hit_record>) {
         let mut hit_anything = false;
         let mut closest_so_far = t_max;
 

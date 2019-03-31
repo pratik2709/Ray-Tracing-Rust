@@ -14,7 +14,7 @@ impl hit_record{
 }
 
 trait RayHit{
-    fn hit(self, ray: Ray, t_min:f32, t_max: f32) -> (bool, Option<hit_record>);
+    fn hit(&self, ray: Ray, t_min:f32, t_max: f32) -> (bool, Option<hit_record>);
 }
 
 #[derive(Debug)]
@@ -35,7 +35,7 @@ impl sphere{
 }
 
 impl RayHit for sphere{
-    fn hit(self, ray: Ray, t_min:f32, t_max: f32) -> (bool, Option<hit_record>){
+    fn hit(&self, ray: Ray, t_min:f32, t_max: f32) -> (bool, Option<hit_record>){
         let oc = ray.getOrigin() - self.center();
         let a:f32 = ray.getDirection().dot(&ray.direction);
         let b:f32 = ray.getDirection().dot(&oc);

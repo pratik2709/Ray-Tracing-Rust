@@ -49,7 +49,10 @@ impl Mul for Vec3{
 
         }
     }
+
 }
+
+
 
 impl Div for Vec3{
     type Output = Vec3;
@@ -109,7 +112,7 @@ impl Vec3{
         ((self.x*self.x + self.y*self.y + self.z*self.z) as f32).sqrt()
     }
 
-    fn length_squared(self) -> f32{
+    fn length_squared(&self) -> f32{
         self.x*self.x + self.y*self.y + self.z*self.z
     }
 }
