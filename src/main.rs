@@ -72,6 +72,7 @@ fn main() {
             }
 
             colu = colu / ns as f32;
+            colu = Vec3::new(colu.x.sqrt(), colu.y.sqrt(), colu.z.sqrt());
             let ir = (255.99 * colu.x) as i32;
             let ig = (255.99 * colu.y) as i32;
             let ib = (255.99 * colu.z) as i32;
@@ -86,7 +87,7 @@ fn main() {
 
 fn color(ray: Ray, world: &hitable_list) -> Option<Vec3> {
     let tempVec3: Option<Vec3> = None;
-    let (ray_hit_result, rec) = world.hit(ray.clone(), 0.0, std::f32::MAX);
+    let (ray_hit_result, rec) = world.hit(ray.clone(), 0.001, std::f32::MAX);
     if ray_hit_result {
         match rec {
             None => return tempVec3,
