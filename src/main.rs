@@ -63,8 +63,7 @@ fn main() {
                 cam = camera::init();
                 let r = cam.get_ray(rgbVec.x, rgbVec.y);
                 let p = r.clone().point_at_parameter(2.0);
-                let new_world = world.clone();
-                let v = color(r.clone(), &new_world);
+                let v = color(r.clone(), &world);
                 match v {
                     Some(v) => {
                         colu = colu + v
