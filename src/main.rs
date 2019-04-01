@@ -93,10 +93,8 @@ fn color(ray: Ray, world: &hitable_list) -> Option<Vec3> {
         match rec {
             None => return tempVec3,
             Some(rec) => {
-                let temp = rec.clone();
-                let temp1 = rec.clone();
-                let target = rec.p + rec.normal + random_in_unit_sphere();
-                let new_vec3 = color(Ray::new(temp.p, target - temp1.p), &world);
+                let target = rec.getP() + rec.getNormal() + random_in_unit_sphere();
+                let new_vec3 = color(Ray::new(rec.getP(), target - rec.getP()), &world);
                 match new_vec3 {
                     None => tempVec3,
                     Some(new_vec3) => return Some(new_vec3*0.5)
