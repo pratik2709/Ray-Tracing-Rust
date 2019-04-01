@@ -16,6 +16,7 @@ include!("ray.rs");
 include!("sphere.rs");
 include!("world.rs");
 include!("camera.rs");
+include!("material.rs");
 
 
 fn main() {

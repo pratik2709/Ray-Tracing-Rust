@@ -3,5 +3,5 @@ trait RayHit{
 }
 
 trait Material{
-    fn scatter(&self, ray: Ray, scattered: Ray, attentuation: Vec3) -> (bool, Option<hit_record>);
+    fn scatter(&self, ray: Ray, scattered: Ray, rec: hit_record, attentuation:  Vec3) -> bool;
 }
