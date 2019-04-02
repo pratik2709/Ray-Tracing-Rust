@@ -1,29 +1,31 @@
 #[derive(Clone)]
-struct material{
+struct material {}
 
-}
-
-struct lambertian{
+struct lambertian {
     superclass: material,
-    albedo: Vec3
+    albedo: Vec3,
 }
 
-impl lambertian{
-    fn new(&self, a:Vec3){
-        self.albedo = a
+impl lambertian {
+    fn new(mut self, a: Vec3) {
+        self.albedo = Vec3{
+            x: a.x,
+            y: a.y,
+            z: a.z,
+        }
     }
 }
 
-impl Material for lambertian{
-    fn scatter(&self, ray: Ray, scattered: Ray, rec: hit_record, attentuation: Vec3) -> bool{
-        let target : Vec3 = rec.getP() + rec.getNormal() + random_in_unit_sphere();
-        scattered = Ray::new(rec.getP(), target - rec.getP());
-        attentuation = self.albedo.clone();
-        scattered.direction.dot(&rec.normal) > 0.0
+impl Material for lambertian {
+    fn scatter(&self, ray: Ray, rec: hit_record) -> (bool, Ray, Vec3) {
+        let target: Vec3 = rec.getP() + rec.getNormal() + random_in_unit_sphere();
+        let scattered = Ray::new(rec.getP(), target - rec.getP());
+        let res = scattered.direction.dot(&rec.normal) > 0.0;
+        (res, scattered, self.albedo.clone())
     }
 }
 
-fn reflect(v: Vec3, n: Vec3) -> Vec3{
-    let temp1 = n*(v.dot(&n));
-    v - temp1*2.0
+fn reflect(v: Vec3, n: Vec3) -> Vec3 {
+    let temp1 = n.clone() * (v.dot(&n));
+    v - temp1 * 2.0
 }
