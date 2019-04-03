@@ -38,11 +38,13 @@ fn main() {
     let v1 = sphere {
         center: Vec3::new(0.0, 0.0, -1.0),
         radius: 0.5,
+        material: Box::new(lambertian::new(Vec3::new(0.8, 0.3, 0.3)))
     };
 
     let v2 = sphere {
         center: Vec3::new(0.0, -100.5, -1.0),
         radius: 100.0,
+        material: Box::new(lambertian::new(Vec3::new(0.8, 0.8, 0.8)))
     };
     spheres.push(v1);
     spheres.push(v2);
@@ -64,7 +66,7 @@ fn main() {
                 cam = camera::init();
                 let r = cam.get_ray(rgbVec.x, rgbVec.y);
                 let p = r.clone().point_at_parameter(2.0);
-                let v = color(r.clone(), &world);
+                let v = color(r.clone(), &world, 0);
                 match v {
                     Some(v) => {
                         colu = colu + v
@@ -87,18 +89,19 @@ fn main() {
     }
 }
 
-fn color(ray: Ray, world: &hitable_list) -> Option<Vec3> {
+fn color(ray: Ray, world: &hitable_list, depth: i32) -> Option<Vec3> {
     let tempVec3: Option<Vec3> = None;
     let (ray_hit_result, rec) = world.hit(&ray, 0.001, std::f32::MAX);
     if ray_hit_result {
         match rec {
             None => return tempVec3,
             Some(rec) => {
-                let target = rec.getP() + rec.getNormal() + random_in_unit_sphere();
-                let new_vec3 = color(Ray::new(rec.getP(), target - rec.getP()), &world);
-                match new_vec3 {
-                    None => tempVec3,
-                    Some(new_vec3) => return Some(new_vec3*0.5)
+                let (res, scattered, attenuation) = rec.Material.scatter(ray, rec);
+                if depth < 50 && res{
+                    return attenuation*color(scattered, &world, depth + 1)
+                }
+                else{
+                    return Some(Vec3::new(0.0, 0.0, 0.0))
                 }
             }
         }

@@ -1,8 +1,5 @@
 #[derive(Clone)]
-struct material {}
-
 struct lambertian {
-    superclass: material,
     albedo: Vec3,
 }
 

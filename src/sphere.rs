@@ -1,8 +1,9 @@
 #[derive(Debug)]
 #[derive(Clone)]
 struct sphere{
-    center: Vec3,
-    radius: f32,
+    pub center: Vec3,
+    pub radius: f32,
+    pub material: Box<Material>
 }
 
 impl sphere{
@@ -29,7 +30,7 @@ impl RayHit for sphere{
                 let t = temp;
                 let p = ray.point_at_parameter(t);
                 let normal = (p.clone() - self.center())/self.radius;
-                let rec = hit_record::new(t,p,normal);
+                let rec = hit_record::new(t,p,normal, self.material.clone());
                 return (true, Some(rec))
             }
             temp = (-b + (b*b-a*c).sqrt())/a;
@@ -37,7 +38,7 @@ impl RayHit for sphere{
                 let t = temp;
                 let p = ray.point_at_parameter(t);
                 let normal = (p.clone() - self.center())/self.radius;
-                let rec = hit_record::new(t,p,normal);
+                let rec = hit_record::new(t,p,normal, self.material.clone());
                 return (true, Some(rec))
             }
         }
