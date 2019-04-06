@@ -12,12 +12,10 @@ impl Material for lambertian {
         (res, scattered, self.albedo.clone())
     }
 
-//    fn clone(&self) -> Box<Material>{
-//        Box::new(lambertian{albedo:self.albedo})
-//    }
 }
 
 fn reflect(v: Vec3, n: Vec3) -> Vec3 {
     let temp1 = n.clone() * (v.dot(&n));
     v - temp1 * 2.0
 }
+
