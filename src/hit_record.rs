@@ -3,7 +3,7 @@ pub struct hit_record{
     pub t:f32,
     pub p:Vec3,
     pub normal:Vec3,
-    pub material: Box<Material>
+    pub material: Rc<Material>
 }
 
 impl hit_record{
@@ -24,7 +24,7 @@ impl hit_record{
         }
     }
 
-    fn new(t:f32,p:Vec3,normal:Vec3, material: Material) -> hit_record{
+    fn new(t:f32,p:Vec3,normal:Vec3, material: Rc<Material>) -> hit_record{
         hit_record{
             t,p,normal, material
         }

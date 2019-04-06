@@ -1,9 +1,9 @@
-#[derive(Debug)]
+
 #[derive(Clone)]
 struct sphere{
     pub center: Vec3,
     pub radius: f32,
-    pub material: Box<Material>
+    pub material: Rc<Material>
 }
 
 impl sphere{

@@ -6,7 +6,7 @@ use std::io::Write;
 use std::error::Error;
 use std::fs::File;
 use std::path::Path;
-
+use std::rc::Rc;
 
 
 include!("VectorLib.rs");
@@ -35,16 +35,22 @@ fn main() {
     let mut j = ny - 1;
 
     let mut spheres: Vec<sphere> = Vec::new();
+
+
     let v1 = sphere {
         center: Vec3::new(0.0, 0.0, -1.0),
         radius: 0.5,
-        material: Box::new(lambertian::new(Vec3::new(0.8, 0.3, 0.3)))
+        material: Rc::new(lambertian {
+            albedo: Vec3::new(0.8, 0.3, 0.3)
+        }),
     };
 
     let v2 = sphere {
         center: Vec3::new(0.0, -100.5, -1.0),
         radius: 100.0,
-        material: Box::new(lambertian::new(Vec3::new(0.8, 0.8, 0.8)))
+        material: Rc::new(lambertian {
+            albedo: Vec3::new(0.8, 0.8, 0.8)
+        }),
     };
     spheres.push(v1);
     spheres.push(v2);
@@ -96,12 +102,17 @@ fn color(ray: Ray, world: &hitable_list, depth: i32) -> Option<Vec3> {
         match rec {
             None => return tempVec3,
             Some(rec) => {
-                let (res, scattered, attenuation) = rec.Material.scatter(ray, rec);
-                if depth < 50 && res{
-                    return attenuation*color(scattered, &world, depth + 1)
-                }
-                else{
-                    return Some(Vec3::new(0.0, 0.0, 0.0))
+                let (res, scattered, attenuation) = rec.material.scatter(ray, &rec);
+                if depth < 50 && res {
+                    let c = color(scattered, &world, depth + 1);
+                    match c {
+                        None => return tempVec3,
+                        Some(c) => {
+                            return Some(attenuation * c);
+                        }
+                    }
+                } else {
+                    return Some(Vec3::new(0.0, 0.0, 0.0));
                 }
             }
         }
@@ -115,15 +126,14 @@ fn color(ray: Ray, world: &hitable_list, depth: i32) -> Option<Vec3> {
 fn random_in_unit_sphere() -> Vec3 {
     let mut p: Vec3;
     loop {
-        p = Vec3::new(drand48(), drand48(), drand48())*2.0 - Vec3::new(1.0, 1.0, 1.0);
+        p = Vec3::new(drand48(), drand48(), drand48()) * 2.0 - Vec3::new(1.0, 1.0, 1.0);
         if p.length_squared() >= 1.0 {
-                break;
+            break;
         }
     }
 
-    return p.clone()
+    return p.clone();
 }
-
 
 
 pub fn drand48() -> f32 {
