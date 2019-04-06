@@ -57,7 +57,7 @@ fn main() {
     let v3 = sphere {
         center: Vec3::new(1.0, 0.0, -1.0),
         radius: 0.5,
-        material: Rc::new(lambertian {
+        material: Rc::new(metal {
             albedo: Vec3::new(0.8, 0.6, 0.2)
         }),
     };
@@ -65,7 +65,7 @@ fn main() {
     let v4 = sphere {
         center: Vec3::new(-1.0, 0.0, -1.0),
         radius: 0.5,
-        material: Rc::new(lambertian {
+        material: Rc::new(metal {
             albedo: Vec3::new(0.8, 0.8, 0.8)
         }),
     };
@@ -74,7 +74,7 @@ fn main() {
     spheres.push(v2);
     spheres.push(v3);
     spheres.push(v4);
-    let world = hitable_list::new(2, &spheres);
+    let world = hitable_list::new(4, &spheres);
 
 
     while j >= 0 {

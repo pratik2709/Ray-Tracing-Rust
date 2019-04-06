@@ -8,8 +8,7 @@ impl Material for lambertian {
     fn scatter(&self, ray: Ray, rec: &hit_record) -> (bool, Ray, Vec3) {
         let target: Vec3 = rec.getP() + rec.getNormal() + random_in_unit_sphere();
         let scattered = Ray::new(rec.getP(), target - rec.getP());
-        let res = scattered.direction.dot(&rec.normal) > 0.0;
-        (res, scattered, self.albedo.clone())
+        (true, scattered, self.albedo.clone())
     }
 
 }
