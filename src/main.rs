@@ -57,17 +57,15 @@ fn main() {
     let v3 = sphere {
         center: Vec3::new(1.0, 0.0, -1.0),
         radius: 0.5,
-        material: Rc::new(metal {
-            albedo: Vec3::new(0.8, 0.6, 0.2)
-        }),
+
+        material: Rc::new(metal::new(Vec3::new(0.8, 0.6, 0.2), 1.0)),
     };
 
     let v4 = sphere {
         center: Vec3::new(-1.0, 0.0, -1.0),
         radius: 0.5,
-        material: Rc::new(metal {
-            albedo: Vec3::new(0.8, 0.8, 0.8)
-        }),
+
+        material: Rc::new(metal::new(Vec3::new(0.8, 0.8, 0.8), 0.3)),
     };
 
     spheres.push(v1);
