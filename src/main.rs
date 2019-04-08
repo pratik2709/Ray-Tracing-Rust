@@ -18,6 +18,7 @@ include!("world.rs");
 include!("camera.rs");
 include!("material.rs");
 include!("metal.rs");
+include!("dielectric.rs");
 
 
 fn main() {
