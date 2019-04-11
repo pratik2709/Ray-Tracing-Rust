@@ -2,6 +2,14 @@ struct dielectric{
     ref_idx:f32
 }
 
+impl dielectric{
+    fn new(ref_idx:f32) -> dielectric{
+        dielectric{
+            ref_idx
+        }
+    }
+}
+
 impl Material for dielectric {
     fn scatter(&self, ray: Ray, rec: &hit_record) -> (bool, Ray, Vec3) {
         let outward_normal: Vec3;
@@ -34,10 +42,13 @@ impl Material for dielectric {
 
             match refracted {
                 Some(refracted) => {
-                    let scattered = Ray::new(rec.getP(), refracted);
+                    let scattered = Ray::new(rec.getP(), reflected);
                     (false, scattered, attenuation)
                 }
-                None => panic!("empty!")
+                None => {
+                    let scattered = Ray::new(rec.getP(), reflected);
+                    (false, scattered, attenuation)
+                }
             }
 
 

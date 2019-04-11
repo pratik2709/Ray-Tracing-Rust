@@ -66,7 +66,7 @@ fn main() {
         center: Vec3::new(-1.0, 0.0, -1.0),
         radius: 0.5,
 
-        material: Rc::new(metal::new(Vec3::new(0.8, 0.8, 0.8), 0.3)),
+        material: Rc::new(dielectric::new(1.5)),
     };
 
     spheres.push(v1);
