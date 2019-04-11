@@ -64,7 +64,7 @@ fn main() {
 
     let v4 = sphere {
         center: Vec3::new(-1.0, 0.0, -1.0),
-        radius: 0.5,
+        radius: -0.45,
 
         material: Rc::new(dielectric::new(1.5)),
     };

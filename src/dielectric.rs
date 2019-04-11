@@ -16,43 +16,47 @@ impl Material for dielectric {
         let reflected = reflect(ray.getDirection(), rec.getNormal());
         let ni_over_nt:f32;
         let attenuation = Vec3::new(1.0,1.0,1.0);
+        let reflect_prob:f32;
+        let cosine:f32;
+        let mut scattered: Ray;
 
         if ray.getDirection().dot(&rec.getNormal()) > 0.0{
             outward_normal = -rec.getNormal();
             ni_over_nt = self.ref_idx;
+            cosine = self.ref_idx * ray.getDirection().dot(&rec.getNormal()) / ray.getDirection()
+                .length();
         }
         else{
             outward_normal = rec.getNormal();
             ni_over_nt = 1.0/self.ref_idx;
+            cosine = (-1.0 * ray.getDirection().dot(&rec.getNormal())) / ray.getDirection()
+                .length();
         }
 
 
         let (b, refracted) = refract(ray.getDirection(), outward_normal, ni_over_nt);
         if b {
+            reflect_prob = schlick(cosine, self.ref_idx);
+        }
+        else{
+            scattered = Ray::new(rec.getP(), reflected.clone());
+            reflect_prob = 1.0;
+        }
+
+        if drand48() < reflect_prob {
+            scattered = Ray::new(rec.getP(), reflected);
+        }
+        else{
             match refracted {
                 Some(refracted) => {
-                    let scattered = Ray::new(rec.getP(), refracted);
-                    (true, scattered, attenuation)
+                    scattered = Ray::new(rec.getP(), refracted);
                 }
                 None => panic!("empty!")
             }
 
         }
-        else{
 
-            match refracted {
-                Some(refracted) => {
-                    let scattered = Ray::new(rec.getP(), reflected);
-                    (false, scattered, attenuation)
-                }
-                None => {
-                    let scattered = Ray::new(rec.getP(), reflected);
-                    (false, scattered, attenuation)
-                }
-            }
-
-
-        }
+        (true, scattered, attenuation)
 
     }
 
@@ -70,4 +74,12 @@ fn refract(v: Vec3, n: Vec3, ni_over_nt: f32) -> (bool, Option<Vec3>){
     else{
         (false, refracted)
     }
+}
+
+
+fn schlick(cosine:f32, ref_idx:f32) -> f32{
+    let mut r0:f32 = (1.0- ref_idx)/(1.0+ref_idx);
+    r0 = r0*r0;
+    let temp:f32 = (1.0 - cosine);
+    r0 + (1.0 - r0)*temp.powf(5.0)
 }
