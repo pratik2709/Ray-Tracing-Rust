@@ -8,8 +8,8 @@ impl Material for dielectric {
         let reflected = reflect(ray.getDirection(), rec.getNormal());
         let ni_over_nt:f32;
         let attenuation = Vec3::new(1.0,1.0,1.0);
-//        let refracted:Vec3;
-        if ray.getDirection().dot(rec.getNormal()) > 0{
+
+        if ray.getDirection().dot(&rec.getNormal()) > 0.0{
             outward_normal = -rec.getNormal();
             ni_over_nt = self.ref_idx;
         }
@@ -18,10 +18,31 @@ impl Material for dielectric {
             ni_over_nt = 1.0/self.ref_idx;
         }
 
+
         let (b, refracted) = refract(ray.getDirection(), outward_normal, ni_over_nt);
         if b {
+            match refracted {
+                Some(refracted) => {
+                    let scattered = Ray::new(rec.getP(), refracted);
+                    (true, scattered, attenuation)
+                }
+                None => panic!("empty!")
+            }
 
         }
+        else{
+
+            match refracted {
+                Some(refracted) => {
+                    let scattered = Ray::new(rec.getP(), refracted);
+                    (false, scattered, attenuation)
+                }
+                None => panic!("empty!")
+            }
+
+
+        }
+
     }
 
 }
