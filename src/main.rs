@@ -43,7 +43,7 @@ fn main() {
         center: Vec3::new(0.0, 0.0, -1.0),
         radius: 0.5,
         material: Rc::new(lambertian {
-            albedo: Vec3::new(0.8, 0.3, 0.3)
+            albedo: Vec3::new(0.1, 0.2, 0.5)
         }),
     };
 
@@ -51,7 +51,7 @@ fn main() {
         center: Vec3::new(0.0, -100.5, -1.0),
         radius: 100.0,
         material: Rc::new(lambertian {
-            albedo: Vec3::new(0.8, 0.8, 0.8)
+            albedo: Vec3::new(0.8, 0.8, 0.0)
         }),
     };
 
@@ -59,10 +59,17 @@ fn main() {
         center: Vec3::new(1.0, 0.0, -1.0),
         radius: 0.5,
 
-        material: Rc::new(metal::new(Vec3::new(0.8, 0.6, 0.2), 1.0)),
+        material: Rc::new(metal::new(Vec3::new(0.8, 0.6, 0.2), 0.2)),
     };
 
     let v4 = sphere {
+        center: Vec3::new(-1.0, 0.0, -1.0),
+        radius: 0.5,
+
+        material: Rc::new(dielectric::new(1.5)),
+    };
+
+    let v5 = sphere {
         center: Vec3::new(-1.0, 0.0, -1.0),
         radius: -0.45,
 
@@ -73,7 +80,8 @@ fn main() {
     spheres.push(v2);
     spheres.push(v3);
     spheres.push(v4);
-    let world = hitable_list::new(4, &spheres);
+    spheres.push(v5);
+    let world = hitable_list::new(5, &spheres);
 
 
     while j >= 0 {
