@@ -1,8 +1,5 @@
 #[derive(Clone)]
 pub struct camera{
-    theta: f32,
-    half_height: f32,
-    half_width: f32,
     origin: Vec3,
     lower_left_corner: Vec3,
     horizontal: Vec3,
@@ -11,20 +8,29 @@ pub struct camera{
 
 impl camera{
 
-    fn init(vfov:f32, aspect:f32) -> camera{
+    fn init(lookfrom:Vec3, lookat:Vec3, vup:Vec3, vfov:f32, aspect:f32) -> camera{
+        let u;
+        let v;
+        let w;
         let M_PI = std::f32::consts::PI;
         let theta = vfov*(M_PI)/180.0;
         let half_height = (theta/2.0).tan();
         let half_width = aspect * half_height;
+        let origin = lookfrom.clone();
+        w = (lookfrom - lookat).make_unit_vector();
+        u = vup.cross(w.clone());
+        v = w.clone().cross(u.clone());
+//        let lower_left_corner = Vec3::new(-half_width, -half_height, -1.0);
+        let lower_left_corner = origin.clone() - u.clone()*half_width - v.clone()*half_height -
+            w.clone();
 
+        let horizontal=u*2.0* half_width;
+        let vertical= v*2.0* half_height;
         camera{
-            theta,
-            half_height,
-            half_width,
-            lower_left_corner: Vec3::new(-half_width, -half_height, -1.0),
-            horizontal:Vec3::new(2.0*half_width, 0.0, 0.0),
-            vertical:Vec3::new(0.0, 2.0*half_height, 0.0),
-            origin:Vec3::new(0.0, 0.0, 0.0),
+            lower_left_corner,
+            horizontal,
+            vertical,
+            origin,
         }
 
     }
