@@ -38,11 +38,18 @@ fn main() {
 
     let mut spheres: Vec<sphere> = Vec::new();
 
+    let lookfrom:Vec3 = Vec3::new(3.0, 3.0 ,2.0);
+    let lookat:Vec3 = Vec3::new(0.0, 0.0, -1.0);
+    let dist_to_focus = (lookfrom.clone() - lookat.clone()).length();
+    let aperture:f32 = 2.0;
     let cam: camera;
-    cam = camera::init(Vec3::new(-2.0,2.0, 1.0),
-                       Vec3::new(0.0,0.0, -1.0),
+    cam = camera::init(lookfrom,
+                       lookat,
                        Vec3::new(0.0,1.0, 0.0),
-                       90.0, (nx as f32)/ (ny as f32));
+                       20.0,
+                       (nx as f32)/ (ny as f32),
+                        aperture,
+                        dist_to_focus);
     let R:f32 = (std::f32::consts::PI/4.0).cos();
 
     let v1 = sphere {

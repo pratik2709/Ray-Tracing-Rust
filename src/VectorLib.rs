@@ -130,7 +130,7 @@ impl Vec3{
         d
     }
 
-    fn cross(self, new_vec:Vec3) -> Vec3{
+    fn cross(self, new_vec:&Vec3) -> Vec3{
         Vec3{
             x: self.y*new_vec.z - self.z*new_vec.y,
             y: self.z*new_vec.x - self.x*new_vec.z,
