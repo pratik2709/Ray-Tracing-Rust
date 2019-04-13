@@ -38,51 +38,69 @@ fn main() {
 
     let mut spheres: Vec<sphere> = Vec::new();
 
+    let cam: camera;
+    cam = camera::init(90.0, (nx as f32)/ (ny as f32));
+    let R:f32 = (std::f32::consts::PI/4.0).cos();
 
     let v1 = sphere {
-        center: Vec3::new(0.0, 0.0, -1.0),
-        radius: 0.5,
+        center: Vec3::new(-R, 0.0, -1.0),
+        radius: R,
         material: Rc::new(lambertian {
-            albedo: Vec3::new(0.1, 0.2, 0.5)
+            albedo: Vec3::new(0.0, 0.0, 1.0)
         }),
     };
 
     let v2 = sphere {
-        center: Vec3::new(0.0, -100.5, -1.0),
-        radius: 100.0,
+        center: Vec3::new(R, 0.0, -1.0),
+        radius: R,
         material: Rc::new(lambertian {
-            albedo: Vec3::new(0.8, 0.8, 0.0)
+            albedo: Vec3::new(1.0, 0.0, 0.0)
         }),
     };
 
-    let v3 = sphere {
-        center: Vec3::new(1.0, 0.0, -1.0),
-        radius: 0.5,
-
-        material: Rc::new(metal::new(Vec3::new(0.8, 0.6, 0.2), 0.2)),
-    };
-
-    let v4 = sphere {
-        center: Vec3::new(-1.0, 0.0, -1.0),
-        radius: 0.5,
-
-        material: Rc::new(dielectric::new(1.5)),
-    };
-
-    let v5 = sphere {
-        center: Vec3::new(-1.0, 0.0, -1.0),
-        radius: -0.45,
-
-        material: Rc::new(dielectric::new(1.5)),
-    };
+//    let v1 = sphere {
+//        center: Vec3::new(0.0, 0.0, -1.0),
+//        radius: 0.5,
+//        material: Rc::new(lambertian {
+//            albedo: Vec3::new(0.1, 0.2, 0.5)
+//        }),
+//    };
+//
+//    let v2 = sphere {
+//        center: Vec3::new(0.0, -100.5, -1.0),
+//        radius: 100.0,
+//        material: Rc::new(lambertian {
+//            albedo: Vec3::new(0.8, 0.8, 0.0)
+//        }),
+//    };
+//
+//    let v3 = sphere {
+//        center: Vec3::new(1.0, 0.0, -1.0),
+//        radius: 0.5,
+//
+//        material: Rc::new(metal::new(Vec3::new(0.8, 0.6, 0.2), 0.2)),
+//    };
+//
+//    let v4 = sphere {
+//        center: Vec3::new(-1.0, 0.0, -1.0),
+//        radius: 0.5,
+//
+//        material: Rc::new(dielectric::new(1.5)),
+//    };
+//
+//    let v5 = sphere {
+//        center: Vec3::new(-1.0, 0.0, -1.0),
+//        radius: -0.45,
+//
+//        material: Rc::new(dielectric::new(1.5)),
+//    };
 
     spheres.push(v1);
     spheres.push(v2);
-    spheres.push(v3);
-    spheres.push(v4);
-    spheres.push(v5);
-    let world = hitable_list::new(5, &spheres);
-
+//    spheres.push(v3);
+//    spheres.push(v4);
+//    spheres.push(v5);
+    let world = hitable_list::new(2, &spheres);
 
     while j >= 0 {
         for i in 0..nx {
@@ -95,9 +113,8 @@ fn main() {
                     y: (j + drand48()) / (ny as f32),
                     z: 0.2,
                 };
-                let cam: camera;
-                cam = camera::init();
-                let r = cam.get_ray(rgbVec.x, rgbVec.y);
+                let c = cam.clone();
+                let r = c.get_ray(rgbVec.x, rgbVec.y);
                 let p = r.clone().point_at_parameter(2.0);
                 let v = color(r.clone(), &world, 0);
                 match v {
