@@ -63,6 +63,9 @@ fn random_in_unit_disk() -> Vec3 {
     loop {
         p = Vec3::new(drand48(), drand48(), 0.0) * 2.0 - Vec3::new(1.0, 1.0, 0.0);
         if p.dot(&p) >= 1.0 {
+            continue;
+        }
+        else{
             break;
         }
     }
