@@ -19,6 +19,7 @@ include!("camera.rs");
 include!("material.rs");
 include!("metal.rs");
 include!("dielectric.rs");
+include!("random_scene.rs");
 
 
 fn main() {
@@ -28,7 +29,7 @@ fn main() {
         Ok(actual_file) => actual_file,
     };
 
-    let nx = 200;
+    let nx = 300;
     let ny = 100;
     let ns = 100;
     let first_line = format!("{}{} {} {}", "P3\n", nx, ny, "\n255\n");
@@ -51,65 +52,50 @@ fn main() {
                         aperture,
                         dist_to_focus);
     let R:f32 = (std::f32::consts::PI/4.0).cos();
+    spheres = random_scene();
+//    let v1 = sphere {
+//        center: Vec3::new(0.0, 0.0, -1.0),
+//        radius: 0.5,
+//        material: Rc::new(lambertian {
+//            albedo: Vec3::new(0.1, 0.2, 0.5)
+//        }),
+//    };
+//
+//    let v2 = sphere {
+//        center: Vec3::new(0.0, -100.5, -1.0),
+//        radius: 100.0,
+//        material: Rc::new(lambertian {
+//            albedo: Vec3::new(0.8, 0.8, 0.0)
+//        }),
+//    };
+//
+//    let v3 = sphere {
+//        center: Vec3::new(1.0, 0.0, -1.0),
+//        radius: 0.5,
+//
+//        material: Rc::new(metal::new(Vec3::new(0.8, 0.6, 0.2), 0.2)),
+//    };
+//
+//    let v4 = sphere {
+//        center: Vec3::new(-1.0, 0.0, -1.0),
+//        radius: 0.5,
+//
+//        material: Rc::new(dielectric::new(1.5)),
+//    };
+//
+//    let v5 = sphere {
+//        center: Vec3::new(-1.0, 0.0, -1.0),
+//        radius: -0.45,
+//
+//        material: Rc::new(dielectric::new(1.5)),
+//    };
+//
+//    spheres.push(v1);
+//    spheres.push(v2);
+//    spheres.push(v3);
+//    spheres.push(v4);
+//    spheres.push(v5);
 
-    let v1 = sphere {
-        center: Vec3::new(-R, 0.0, -1.0),
-        radius: R,
-        material: Rc::new(lambertian {
-            albedo: Vec3::new(0.0, 0.0, 1.0)
-        }),
-    };
-
-    let v2 = sphere {
-        center: Vec3::new(R, 0.0, -1.0),
-        radius: R,
-        material: Rc::new(lambertian {
-            albedo: Vec3::new(1.0, 0.0, 0.0)
-        }),
-    };
-
-    let v1 = sphere {
-        center: Vec3::new(0.0, 0.0, -1.0),
-        radius: 0.5,
-        material: Rc::new(lambertian {
-            albedo: Vec3::new(0.1, 0.2, 0.5)
-        }),
-    };
-
-    let v2 = sphere {
-        center: Vec3::new(0.0, -100.5, -1.0),
-        radius: 100.0,
-        material: Rc::new(lambertian {
-            albedo: Vec3::new(0.8, 0.8, 0.0)
-        }),
-    };
-
-    let v3 = sphere {
-        center: Vec3::new(1.0, 0.0, -1.0),
-        radius: 0.5,
-
-        material: Rc::new(metal::new(Vec3::new(0.8, 0.6, 0.2), 0.2)),
-    };
-
-    let v4 = sphere {
-        center: Vec3::new(-1.0, 0.0, -1.0),
-        radius: 0.5,
-
-        material: Rc::new(dielectric::new(1.5)),
-    };
-
-    let v5 = sphere {
-        center: Vec3::new(-1.0, 0.0, -1.0),
-        radius: -0.45,
-
-        material: Rc::new(dielectric::new(1.5)),
-    };
-
-    spheres.push(v1);
-    spheres.push(v2);
-    spheres.push(v3);
-    spheres.push(v4);
-    spheres.push(v5);
     let world = hitable_list::new(2, &spheres);
 
     while j >= 0 {
