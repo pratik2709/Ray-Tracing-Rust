@@ -29,9 +29,9 @@ fn main() {
         Ok(actual_file) => actual_file,
     };
 
-    let nx = 300;
-    let ny = 100;
-    let ns = 100;
+   let nx = 1200;
+   let ny = 800;
+   let ns = 10;
     let first_line = format!("{}{} {} {}", "P3\n", nx, ny, "\n255\n");
     actual_file.write(first_line.as_bytes());
 
@@ -39,18 +39,16 @@ fn main() {
 
     let mut spheres: Vec<sphere> = Vec::new();
 
-    let lookfrom:Vec3 = Vec3::new(3.0, 3.0 ,2.0);
-    let lookat:Vec3 = Vec3::new(0.0, 0.0, -1.0);
-    let dist_to_focus = (lookfrom.clone() - lookat.clone()).length();
-    let aperture:f32 = 2.0;
-    let cam: camera;
-    cam = camera::init(lookfrom,
-                       lookat,
-                       Vec3::new(0.0,1.0, 0.0),
-                       20.0,
-                       (nx as f32)/ (ny as f32),
-                        aperture,
-                        dist_to_focus);
+   let lookfrom = Vec3::new(13.0, 2.0, 3.0);
+   let lookat = Vec3::new(0.0, 0.0, 0.0);
+   let dist_to_focus= 10.0;
+   let aperture = 0.1;
+   let cam = camera::init(
+       lookfrom,
+       lookat,
+       Vec3::new(0.0,1.0, 0.0),
+       20.0, nx as f32 / ny as f32,
+       aperture, dist_to_focus);
     let R:f32 = (std::f32::consts::PI/4.0).cos();
     spheres = random_scene();
 //    let v1 = sphere {
